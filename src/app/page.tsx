@@ -11,13 +11,14 @@ export default function Home() {
   const auth = getAuth(app)
   const [user, setUser] = useState<any>(null)
   const router = useRouter()
+  const [selectChatroom, setSelectChatroom] = useState<any>(null)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         const userRef = doc(firebase, 'users', user.uid)
         const userSnap = await getDoc(userRef)
-        const userData = userSnap.data()
+        const userData = ({ id: userSnap.id, ...userSnap.data() })
         setUser(userData)
       } else {
         setUser(null)
@@ -30,10 +31,10 @@ export default function Home() {
   return (
     <div className="flex h-screen">
       <div className=" w-3/12 hidden xl:block flex-shrink-0">
-        <Users usre={user} />
+        <Users userData={user} setSelectChatroom={setSelectChatroom} />
       </div>
       <div className="flex-grow w-3/12">
-        <ChatRoom user={user} />
+        <ChatRoom user={user} selectChatroom={selectChatroom} />
       </div>
     </div>
   );
