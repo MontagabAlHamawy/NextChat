@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '@/config/firebase';
+import toast from "react-hot-toast";
 
 interface ErrorType {
   email?: string;
@@ -46,7 +47,7 @@ export default function Login() {
       }
     } catch (error: any) {
       console.error("Login Error:", error.message);
-      alert(`Login Error: ${error.message}`);
+      toast.error('error in login')
     } finally {
       setLoading(false);
     }
@@ -96,7 +97,7 @@ export default function Login() {
         </div>
 
         <div className="text-center">
-          <span>I do not have an account</span>
+          <span>I donot have an account</span>
           <a href="/signup" className="text-blue-600 hover:text-blue-800 hover:underline">Sign Up</a>
         </div>
       </form>
